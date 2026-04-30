@@ -1,0 +1,6 @@
+{
+  "name": "Multi-Model Telegram Bot",
+  "description": "A Telegram bot that supports chatting with reasoning, generating images, and switching between OpenAI and Groq APIs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
