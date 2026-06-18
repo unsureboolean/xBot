@@ -4,6 +4,9 @@ import { MAPS, BEATS, HOME_UPGRADES, QUESTS, getDialogue } from './gameData';
 
 export const CANVAS_W = 800;
 export const CANVAS_H = 640;
+export const PIXEL_SCALE = 2;
+export const RENDER_W = CANVAS_W * PIXEL_SCALE;
+export const RENDER_H = CANVAS_H * PIXEL_SCALE;
 
 function makeBattleState(opponentId: string, beatId: string): BattleState {
   const beat = BEATS[beatId];

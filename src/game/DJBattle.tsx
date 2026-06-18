@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import type { GameState } from './types';
 import { BEATS } from './gameData';
-import { CANVAS_W, CANVAS_H, HIT_ZONE_Y, LANE_W, LANE_START_X, NOTE_SPEED, TRAVEL_TIME } from './useGameState';
+import { CANVAS_W, CANVAS_H, HIT_ZONE_Y, LANE_W, LANE_START_X, NOTE_SPEED, TRAVEL_TIME, PIXEL_SCALE, RENDER_W, RENDER_H } from './useGameState';
 
 interface Props {
   state: GameState;
@@ -242,6 +242,8 @@ export default function DJBattle({ state, onBattleTick, onBattleKey, onCountdown
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.imageSmoothingEnabled = false;
+    ctx.save();
+    ctx.scale(PIXEL_SCALE, PIXEL_SCALE);
 
     const now = Date.now();
 
@@ -714,6 +716,7 @@ export default function DJBattle({ state, onBattleTick, onBattleKey, onCountdown
       }
     }
 
+    ctx.restore();
   }, [bs, beat, state.homeUpgrades]);
 
   // Game loop
@@ -760,9 +763,9 @@ export default function DJBattle({ state, onBattleTick, onBattleKey, onCountdown
   return (
     <canvas
       ref={canvasRef}
-      width={CANVAS_W}
-      height={CANVAS_H}
-      style={{ display: 'block', imageRendering: 'pixelated' }}
+      width={RENDER_W}
+      height={RENDER_H}
+      style={{ display: 'block', width: CANVAS_W, height: CANVAS_H, imageRendering: 'pixelated' }}
     />
   );
 }

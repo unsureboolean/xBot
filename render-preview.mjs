@@ -1,6 +1,7 @@
 import { createCanvas } from 'canvas';
 import { writeFileSync } from 'fs';
 
+const SCALE = 2;
 const W = 800, H = 640, TS = 32;
 
 // ── Tile maps (same as game) ──────────────────────────────────────────────────
@@ -321,9 +322,10 @@ function drawNPC(ctx, px, py, id, color, name) {
 }
 
 // ── Build the canvas ──────────────────────────────────────────────────────────
-const canvas = createCanvas(W, H);
+const canvas = createCanvas(W * SCALE, H * SCALE);
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
+ctx.scale(SCALE, SCALE);
 
 // Background
 ctx.fillStyle = '#3a6b24';

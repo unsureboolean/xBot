@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import type { GameState, Direction } from './types';
 import { MAPS, NPCS, TILE_COLORS } from './gameData';
-import { CANVAS_W, CANVAS_H } from './useGameState';
+import { CANVAS_W, CANVAS_H, PIXEL_SCALE, RENDER_W, RENDER_H } from './useGameState';
 
 interface Props {
   state: GameState;
@@ -1350,6 +1350,8 @@ export default function WorldCanvas({ state, onMove, onInteract }: Props) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.imageSmoothingEnabled = false;
+    ctx.save();
+    ctx.scale(PIXEL_SCALE, PIXEL_SCALE);
 
     const map = MAPS[state.mapId];
     if (!map) return;
@@ -1498,6 +1500,7 @@ export default function WorldCanvas({ state, onMove, onInteract }: Props) {
     ctx.fillStyle = 'rgba(255,255,255,0.5)';
     ctx.fillText('WASD/Arrows: Move  E: Talk  Q: Quests  H: Home', CANVAS_W - 6, CANVAS_H - 10);
 
+    ctx.restore();
   }, [state]);
 
   // Key input
@@ -1555,9 +1558,9 @@ export default function WorldCanvas({ state, onMove, onInteract }: Props) {
   return (
     <canvas
       ref={canvasRef}
-      width={CANVAS_W}
-      height={CANVAS_H}
-      style={{ display: 'block', imageRendering: 'pixelated' }}
+      width={RENDER_W}
+      height={RENDER_H}
+      style={{ display: 'block', width: CANVAS_W, height: CANVAS_H, imageRendering: 'pixelated' }}
     />
   );
 }

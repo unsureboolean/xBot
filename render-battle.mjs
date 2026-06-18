@@ -1,6 +1,7 @@
 import { createCanvas } from 'canvas';
 import { writeFileSync } from 'fs';
 
+const SCALE = 2;
 const W = 800, H = 640;
 const LANE_W = 90;
 const LANE_START_X = (W - LANE_W * 4) / 2;
@@ -17,9 +18,10 @@ const NEON = ['#ff4444','#4499ff','#ffdd00','#44ff88'];
 const DARK = ['#661111','#114466','#665500','#116633'];
 const KEYS = ['A','S','D','F'];
 
-const canvas = createCanvas(W, H);
+const canvas = createCanvas(W * SCALE, H * SCALE);
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
+ctx.scale(SCALE, SCALE);
 
 function rr(ctx, x, y, w, h, r) {
   ctx.beginPath();

@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef, type CSSProperties } from 'react';
+import { useEffect, useCallback, useRef, useState, type CSSProperties } from 'react';
 import { useGameState, CANVAS_W, CANVAS_H } from './useGameState';
 import { MAPS, NPCS, BEATS, HOME_UPGRADES, QUESTS, getDialogue } from './gameData';
 import WorldCanvas from './WorldCanvas';
@@ -432,6 +432,19 @@ export default function Game() {
     buyBeat, openUpgrade, buyUpgrade, openQuestlog, tick,
   } = useGameState();
 
+  // Viewport-filling scale
+  const [viewScale, setViewScale] = useState(1);
+  useEffect(() => {
+    const update = () => {
+      const sx = window.innerWidth / CANVAS_W;
+      const sy = window.innerHeight / CANVAS_H;
+      setViewScale(Math.min(sx, sy));
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   // Notification tick
   const tickRef = useRef<number | null>(null);
   useEffect(() => {
@@ -500,6 +513,8 @@ export default function Game() {
       overflow: 'hidden',
       background: '#050310',
       fontFamily: 'monospace',
+      transform: `scale(${viewScale})`,
+      transformOrigin: 'center center',
     }}>
       {/* World canvas (always rendered) */}
       {state.screen === 'world' && (
